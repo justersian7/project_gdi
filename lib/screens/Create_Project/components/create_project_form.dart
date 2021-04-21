@@ -46,6 +46,10 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
       .where((emplo) => emplo.title == 'salesman')
       .map((employee) => MultiSelectItem<Employee>(employee, employee.name))
       .toList();
+  final _inCharge = _employee
+      .where((emplo) => emplo.title == 'programmer')
+      .map((employee) => MultiSelectItem<Employee>(employee, employee.name))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +70,14 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
             height: getScreenWidth(20),
           ),
           Container(
-            // height: getProportionateScreenWidth(110),
+            height: getScreenWidth(110),
             padding: EdgeInsets.symmetric(
               horizontal: getScreenWidth(12),
               vertical: getScreenWidth(5),
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: kPrimaryColor),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: kTextColor),
             ),
             child: Column(
               children: <Widget>[
@@ -82,7 +86,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                     Icons.add,
                     color: kPrimaryColor,
                   ),
-                  decoration: BoxDecoration(color: Colors.white),
+                  // decoration: BoxDecoration(color: Colors.white),
                   key: _salesmanKey,
                   title: Text("Select Salesman"),
                   buttonText: Text(
@@ -121,6 +125,64 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
               ],
             ),
           ),
+          SizedBox(
+            height: getScreenWidth(20),
+          ),
+          Container(
+            height: getScreenWidth(110),
+            padding: EdgeInsets.symmetric(
+              horizontal: getScreenWidth(12),
+              vertical: getScreenWidth(5),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: kTextColor),
+            ),
+            child: MultiSelectDialogField<Employee>(
+              buttonIcon: Icon(
+                Icons.add,
+                color: kPrimaryColor,
+              ),
+              // decoration: BoxDecoration(color: Colors.white),
+              key: _inChargeKey,
+              title: Text("Select Team Members"),
+              buttonText: Text(
+                'Team Members',
+                style: TextStyle(fontSize: 16),
+              ),
+              items: _inCharge,
+              barrierColor: kTextColor.withOpacity(0.5),
+              listType: MultiSelectListType.CHIP,
+              searchable: true,
+              validator: (values) {
+                if (values == null || values.isEmpty) {
+                  return 'Required';
+                }
+                return null;
+              },
+              onConfirm: (values) {
+                setState(() {
+                  _selectedEmployees = values;
+                });
+                _salesmanKey.currentState.validate();
+              },
+              selectedColor: kPrimaryColor,
+              selectedItemsTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              chipDisplay: MultiSelectChipDisplay(
+                chipColor: kPrimaryColor,
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: getScreenWidth(50),
+          ),
           DefaultButton(
             text: 'Create Project',
             press: () {
@@ -128,6 +190,8 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                 // _formKey.currentState.save();
                 // Navigator.pushNamed(context, ProjectHomeScreen.routeName);
                 print(title);
+                print(company);
+                print(date);
               }
             },
           ),
@@ -139,18 +203,19 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
   TextFormField buildTitleFormField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onSaved: (newValue) => title = newValue,
+      onSaved: (value) => title = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'Required';
         }
       },
       decoration: InputDecoration(
-        labelText: "aaagit",
+        labelText: "Title",
         hintText: "Enter Project Title",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(
           Icons.edit,
+          color: kPrimaryColor,
         ),
       ),
     );
@@ -159,7 +224,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
   TextFormField buildCompanyFormField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onSaved: (newValue) => company = newValue,
+      onSaved: (value) => company = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'Required';
@@ -171,6 +236,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(
           Icons.edit,
+          color: kPrimaryColor,
         ),
       ),
     );
@@ -207,7 +273,10 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
         labelText: "Date",
         hintText: "Enter Date",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.calendar_today_outlined),
+        suffixIcon: Icon(
+          Icons.calendar_today_outlined,
+          color: kPrimaryColor,
+        ),
       ),
     );
   }
