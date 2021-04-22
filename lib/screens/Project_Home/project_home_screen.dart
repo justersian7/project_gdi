@@ -34,15 +34,21 @@ class ProjectHomeScreen extends StatelessWidget {
                   bottom: 0,
                   top: 0,
                   child: PopupMenuButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         child: Row(
                           children: [
                             Icon(
-                              Icons.edit,
+                              Icons.person_outline_rounded,
                               color: kPrimaryColor,
                             ),
-                            Text('Edit'),
+                            SizedBox(
+                              width: getScreenWidth(getScreenWidth(5)),
+                            ),
+                            Text('Profile'),
                           ],
                         ),
                       ),
@@ -50,10 +56,13 @@ class ProjectHomeScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Icon(
-                              Icons.delete,
-                              color: Colors.red,
+                              Icons.lock_outline_rounded,
+                              color: kPrimaryColor,
                             ),
-                            Text('Delete'),
+                            SizedBox(
+                              width: getScreenWidth(getScreenWidth(5)),
+                            ),
+                            Text('Change Password'),
                           ],
                         ),
                       ),
